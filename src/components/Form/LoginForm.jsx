@@ -26,8 +26,7 @@ class LoginForm extends Component {
         axios.post(`https://api.prontoitlabs.com/api/v1/user/login`,data,{headers : headers}) 
         .then((res) =>{
             const token = res.data.data.token;
-            login(token);   
-            console.log(res.data);         
+            login(token);          
             this.props.history.push("/users");
         })
         .catch(() => this.setState({error:'Invalid credential'}));

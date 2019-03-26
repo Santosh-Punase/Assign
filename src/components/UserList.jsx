@@ -18,9 +18,10 @@ class UserList extends Component {
 
     loadData = (page) => {
         const size = this.state.size;
+        const token = localStorage.getItem("token");
         const headers = {
             'Content-Type': 'application/json',
-            'X-AUTH-TOKEN': 'user1' 
+            'X-AUTH-TOKEN': token 
         }
 
         axios(`https://api.prontoitlabs.com/api/v1/user?page=${page}&size=${size}`,{headers: headers})
