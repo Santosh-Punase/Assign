@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import User from './User';
+import Pagination from './Pagination';
 
 class UserList extends Component {
 
@@ -15,20 +16,36 @@ class UserList extends Component {
         };
     }
 
-    componentDidMount() {
-        const page = this.state.page;
+    loadData = (page) => {
         const size = this.state.size;
+        const headers = {
+            'Content-Type': 'application/json',
+            'X-AUTH-TOKEN': 'user1' 
+        }
 
-        axios(`https://api.prontoitlabs.com/api/v1/user?page=${page}&size=${size}`)
+        axios(`https://api.prontoitlabs.com/api/v1/user?page=${page}&size=${size}`,{headers: headers})
         .then((res) => this.setState({
-            page : res.data.currentPage,
-            size : res.data.currentPageSize,
-            totalPages : res.data.totalPages,
-            data : res.data.content 
+            page : res.data.data.currentPage,
+            totalPages : res.data.data.totalPages,
+            data : res.data.data.content 
         }));
-
     }
 
+    componentDidMount() {        
+        const page = this.state.page;
+        this.loadData(page);   
+    }
+
+    goToPrevious = () => {
+        const page = this.state.page - 1;
+        this.loadData(page); 
+    }
+    
+    goToNext = () => {
+        const page = this.state.page + 1;
+        this.loadData(page); 
+    }
+    
     render() {
         const data = this.state.data;
         return (
@@ -37,7 +54,13 @@ class UserList extends Component {
                 data.map((user) => {
                     return (<User key={user.id} user={user} />)
                 })      
-            }        
+            }       
+            <Pagination 
+            page = {this.state.page} 
+            totalpages = {this.state.totalPages}
+            goToPrevious = {this.goToPrevious}
+            goToNext = {this.goToNext}
+            /> 
             </div>
         );
     }

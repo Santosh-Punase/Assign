@@ -5,7 +5,7 @@ class User extends Component {
         const user = this.props.user;
         return (
             <div className="row pt-5">
-                    <div className="col-12 col-lg-6 offset-lg-4">
+                    <div className="col-12 col-lg-6 offset-lg-2">
                         <div className="card my-3">
                             <div className="card-header">
                                 <b>{user.id}</b>
